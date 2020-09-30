@@ -3,15 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import * as serviceWorker from './serviceWorker';
-import {BrowserRouter} from 'react-router-dom'
-import {CartProvider} from './components/contexts/useCart'
+import {BrowserRouter} from 'react-router-dom';
+import generateStore from './redux/store'
+import { Provider } from 'react-redux'
+
+const store = generateStore();
+
+const WithRedux = () => <Provider store={store}><App/></Provider>
 
 ReactDOM.render(
   <BrowserRouter>
   <React.StrictMode>
-    <CartProvider >
-      <App/>
-    </CartProvider>
+    <AuthContextProvider >
+      <WithRedux />
+    </AuthContextProvider>
   </React.StrictMode>
   </BrowserRouter>,
   document.getElementById('root')

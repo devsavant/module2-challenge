@@ -7,7 +7,7 @@ import { fetchProduct } from '../../redux/productsDuck';
 export default function ListView(){
    
     const dispatch = useDispatch();
-    const product = useSelector(state => state.products.list);
+    const products = useSelector(state => state.products.list);
     
     let cart = useContext(CartContext)
 

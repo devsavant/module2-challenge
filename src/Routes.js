@@ -7,8 +7,8 @@ import DetailView from './components/products/DetailView'
 export default function Routes(){
     return (
         <Switch>
-            <Route exact path="/products" component={ListView} />
-            <Route path="/products/:productId" component={DetailView}  />
+            <Route exact path="/" component={ListView} />
+            <Route path="/:id" component={DetailView}  />
         </Switch>
     )
 }

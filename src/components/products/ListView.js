@@ -27,7 +27,7 @@ export default function ListView(){
             <p>
                 <img width="100" src={p.pics[0]} />
                 <br/>
-                <Link to={`/products/${p.id}`}>{p.title} - ${p.price}MXN</Link>
+                <Link to={`/${p._id}`}>{p.title} - ${p.price}MXN</Link>
                 <br/>
                 <button onClick={()=>{
                     addItem(p)

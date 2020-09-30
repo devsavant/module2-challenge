@@ -11,20 +11,12 @@ const CartProvider = ({children}) => { // customHook
 
     const [state, setState] = useState(initial)
 
-
-    // función que genere el total (prices)
-
-    // 1.- haces la funcion que consigue el total (return que??? number)
-    // 2.- la pones en el value (disponible)
-    // 3.- la declaras en el hook
-    // 4.- la usas
-
     function deleteItem(_id){
         let newList = state.items.filter(p=>p._id !== _id)
         setState({...state, items:newList})
     }
 
-    function addItemToCart(product){ // incompleta ?¿¿ si ya está en el carrito --> aumentar quantity // 2.-
+    function addItemToCart(product){ 
         setState({...state, items:[...state.items, product]})
     }
 

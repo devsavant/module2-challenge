@@ -9,54 +9,51 @@ import {CartContext} from './components/contexts/useCart'
 
 function App() {
 
-  let {state:cartState} = useContext(CartContext)
+  // let {state:cartState} = useContext(CartContext)
 
-  useEffect(() => {
-    console.log("effect");
-    fetch("https://rickandmortyapi.com/graphql/", {
-      method: "POST",
-      body: JSON.stringify({
-        query: "{characters\n{results{\nid\n name\n image\n species}}}"
-      }),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then(r => console.log(r));
-  }, []);
+  // useEffect(() => {
+  //   console.log("effect");
+  //   fetch("https://rickandmortyapi.com/graphql/", {
+  //     method: "POST",
+  //     body: JSON.stringify({
+  //       query: "{characters\n{results{\nid\n name\n image\n species}}}"
+  //     }),
+  //     headers:{
+  //       'Content-Type': 'application/json'
+  //     }
+  //   })
+  //     .then(res => {
+  //       console.log(res);
+  //       return res.json();
+  //     })
+  //     .then(r => console.log(r));
+  // }, []);
 
-  let [state, setState] = useState({
-    show:false
-  })
-  let [list, setList] = useState([])
+  // let [state, setState] = useState({
+  //   show:false
+  // })
+  // let [list, setList] = useState([])
 
-  useEffect(()=>{
-    if(!!cartState.items.length){
-      setState({...state, show:true})
-    }
-  }, [cartState])
+  // useEffect(()=>{
+  //   if(!!cartState.items.length){
+  //     setState({...state, show:true})
+  //   }
+  // }, [cartState])
 
-  function toggleShow(){
-    setState({...state, show: !state.show})
-  }
+  // function toggleShow(){
+  //   setState({...state, show: !state.show})
+  // }
 
   return (
     <div >
-    <button onClick={toggleShow}>
-      Blissito
-    </button>
 
       <Routes />
 
-    <Cart 
+    {/* <Cart 
       onCancel={toggleShow}
       show={state.show} 
       list={list}
-      />
+      /> */}
     </div>
   );
 }

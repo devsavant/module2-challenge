@@ -5,12 +5,18 @@ import App from './App';
 import * as serviceWorker from './serviceWorker';
 import {BrowserRouter} from 'react-router-dom'
 import {CartProvider} from './components/contexts/useCart'
+import generateStore from './redux/store'
+import { Provider } from 'react-redux'
+
+const store = generateStore()
+
+const WithRedux = () => <Provider store={store}><App/></Provider>
 
 ReactDOM.render(
   <BrowserRouter>
   <React.StrictMode>
     <CartProvider >
-      <App/>
+      <WithRedux />
     </CartProvider>
   </React.StrictMode>
   </BrowserRouter>,

@@ -1,21 +1,17 @@
-import React, {useEffect, useState, useContext} from 'react'
+import React, {useEffect, useContext} from 'react'
 import {Link} from 'react-router-dom'
-import useCart from '../customHooks/useCart'
 import {CartContext} from '../contexts/useCart'
+import {useDispatch, useSelector} from 'react-redux'
 
 export default function ListView(){
-    let [products, setProducts] = useState([])
+    const products = useSelector(state=> state.app.products)
+    const dispatch = useDispatch()
     // que me entrga el custo hook?
     let cart = useContext(CartContext)
-    console.log("segun context: ", cart)
 
     useEffect(()=>{
-        fetch('https://backend-panel.herokuapp.com/products')
-        .then(res=>res.json())
-        .then(data=>{
-            setProducts(data.result)
-        })
-    }, [])
+        dispatch({type: "GET_PRODUCTS"})
+    }, [dispatch])
 
     function addItem(product){
         cart.addItemToCart(product)

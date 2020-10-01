@@ -8,7 +8,7 @@ export default function Routes(){
     return (
         <Switch>
             <Route exact path="/" component={ListView} />
-            <Route path="/:id" component={DetailView}  />
+            {/* <Route path="/:id" component={DetailView}  /> */}
         </Switch>
     )
 }

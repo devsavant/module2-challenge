@@ -1,7 +1,6 @@
 import React, {Fragment, useEffect, useContext} from 'react'
 import styles from './cart.module.css'
 import CartRow from './CartRow'
-import useCart from '../customHooks/useCart'
 import {CartContext} from '../contexts/useCart'
 
 export default function Cart({show=false, onCancel}){

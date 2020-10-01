@@ -14,9 +14,7 @@ const WithRedux = () => <Provider store={store}><App/></Provider>
 ReactDOM.render(
   <BrowserRouter>
   <React.StrictMode>
-    <AuthContextProvider >
       <WithRedux />
-    </AuthContextProvider>
   </React.StrictMode>
   </BrowserRouter>,
   document.getElementById('root')

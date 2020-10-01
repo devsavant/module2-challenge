@@ -1,12 +1,7 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './cart.module.css'
-import {CartContext} from '../contexts/useCart'
 
-const img = "https://gopherbot.com/images/gopher.jpg"
-
-export default ({product, title, body="No description", price, pics=[], quantity=1, _id})=>{
-
-    let {changeQuantity, deleteItem} = useContext(CartContext)
+export default ({product, title, body="No description", price, pics=[], quantity=1, _id, changeQuantity, deleteItem})=>{
 
     return (
         <div className={styles.rowContainer}>
@@ -22,13 +17,13 @@ export default ({product, title, body="No description", price, pics=[], quantity
                 </span>
                 <div>
                     <button onClick={()=>{
-                        changeQuantity(product, "NO")
+                        changeQuantity(product, false)
                     }}>
                         -
                     </button>
-                    <input value={quantity} type="number"/>
+                    <input value={quantity} type="number" readOnly={true}/>
                     <button onClick={()=>{
-                        changeQuantity(product, "YES")
+                        changeQuantity(product)
                     }} >
                         +
                     </button>
@@ -37,10 +32,10 @@ export default ({product, title, body="No description", price, pics=[], quantity
             <div>
                 <span
                 onClick={()=>{
-                    deleteItem(_id)
+                    deleteItem(product)
                 }}
                 >x</span>
-                <span>$ {price}.00</span>
+                <span>$ {price * product.quantity}.00</span>
             </div>
         </div>
     )

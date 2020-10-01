@@ -1,17 +1,38 @@
-import React, {Fragment, useEffect, useContext} from 'react'
+import React, {Fragment, useEffect} from 'react'
 import styles from './cart.module.css'
 import CartRow from './CartRow'
-import useCart from '../customHooks/useCart'
-import {CartContext} from '../contexts/useCart'
+import { useSelector, useDispatch} from 'react-redux';
 
 export default function Cart({show=false, onCancel}){
 
-    let cart = useContext(CartContext)
-    let {items} = cart.state
+    let cart = useSelector(state => state.products.productCart);
+    const dispatch = useDispatch()
+
+    function changeQuantity(product, increment=true){
+        const found = cart.find(item => item._id === product._id)
+        if(increment){
+            found.quantity += 1
+        }else{
+            found.quantity -= 1  
+            if(found.quantity <= 0){
+                cart = cart.filter(item => item._id !== found._id)
+            }
+        }
+
+        const newCart = cart.map(item => item._id === product._id ? found : item)
+        dispatch({type: 'UPDATE_CART', payload: newCart})
+
+       
+    }
+
+    function deleteItem(product){
+        cart = cart.filter(item => item._id !== product._id)
+        dispatch({type: 'UPDATE_CART', payload: cart})
+    }
 
     useEffect(()=>{
-        console.log("desde el carrito: ", cart.state)
-    }, [cart.state])
+        console.log("desde el carrito: ", cart)
+    }, [cart])
 
     return (
         <Fragment>
@@ -25,9 +46,9 @@ export default function Cart({show=false, onCancel}){
                 show ? styles.cartHolder :
                 `${styles.cartOverlay} ${styles.hidden}`
             } >
-                {items.map(p=><CartRow key={p.id} {...p} product={p} />)}
+                {cart.map(p=><CartRow key={p._id} {...p} product={p} changeQuantity={changeQuantity} deleteItem={deleteItem}/>)}
+            <p>Total: $ {cart.reduce((acc, current) => acc + (current.price * current.quantity), 0)}.00</p>
             </div>
-
         </Fragment>
     )
 }

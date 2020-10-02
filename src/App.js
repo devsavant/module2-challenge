@@ -1,10 +1,10 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 // import Uploader from './components/Uploader' 
-import Cart from './components/cart/Cart';
+// import Cart from './components/cart/Cart';
 import Routes from './Routes';
-import {CartContext} from './components/contexts/useCart'
+// import {CartContext} from './components/contexts/useCart'
 
 
 function App() {

@@ -21,7 +21,7 @@ export default function ListView(){
         <div style={{display:"flex", justifyContent:"space-around", flexWrap:"wrap"}}>
             {products.map(p=>
             <p>
-                <img width="100" src={p.pics[0]} />
+                <img width="100" src={p.pics[0]} alt="" />
                 <br/>
                 <Link to={`/${p._id}`}>{p.title} - ${p.price}MXN</Link>
                 <br/>

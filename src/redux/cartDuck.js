@@ -1,12 +1,10 @@
-import {ajax} from 'rxjs/ajax'
 import {
-    map,
     switchMap,
 } from 'rxjs/operators'
 import {
     ofType
 } from 'redux-observable'
-import {of, concat} from 'rxjs'
+import { of } from 'rxjs'
 const initialData = {
     items:[],
     products: [],

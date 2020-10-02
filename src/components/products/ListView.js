@@ -10,7 +10,7 @@ export default function ListView(){
     let cart = useContext(CartContext)
 
     useEffect(()=>{
-        dispatch({type: "GET_PRODUCTS"})
+        dispatch({type: "GET_PRODUCTS",payload:{name:'ojito'}})
     }, [dispatch])
 
     function addItem(product){

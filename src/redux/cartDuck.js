@@ -1,10 +1,14 @@
+import {ajax} from 'rxjs/ajax'
+
 import {
     switchMap,
+    catchError,
+    map
 } from 'rxjs/operators'
 import {
     ofType
 } from 'redux-observable'
-import { of } from 'rxjs'
+import { of, concat } from 'rxjs'
 const initialData = {
     items:[],
     products: [],
@@ -18,21 +22,35 @@ export default function (state = initialData, action) {
                 items: action.payload,
                 //total:action.payload.reduce(())
             }
-        case "SET_PRODUCTS":
+        case "SET_PRODUCTS":{
+            console.log('llegooo');
             return {...state, products: action.payload }
+        }
         default: return state;
     }
 }
 
 export function getItems(action$) {
+    console.log('-**********************************------------');
+    console.dir(action$);
+    console.log('-*-------------------------------------------*--');
     return action$.pipe(
         ofType("GET_PRODUCTS"),
-        switchMap(() => {
-            fetch('https://backend-panel.herokuapp.com/products')
-            .then(res=>res.json())
-            .then(data=>{
-                return of({type: "SET_PRODUCTS", payload: data.result})
-            })
+        //x(),
+        switchMap(({payload}) => {
+            console.log('*-*-**-*-*-*-*-')
+            console.log('dentro del switch');
+            console.dir(payload);
+            console.log('*-**-**-*-*-*-');
+            return concat(
+                ajax.getJSON('https://backend-panel.herokuapp.com/products').pipe(
+                    map(resp=>({type:"SET_PRODUCTS", payload:resp.result})),
+                    catchError(err=>{
+                        console.log('erroooooooor');
+                        console.dir(err);
+                    })
+                )
+            )
         })
     )
 }

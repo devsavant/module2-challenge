@@ -1,20 +1,18 @@
 import React, {useEffect, useContext} from 'react'
 import {Link} from 'react-router-dom'
-import {CartContext} from '../contexts/useCart'
 import {useDispatch, useSelector} from 'react-redux'
 
 export default function ListView(){
     const products = useSelector(state=> state.app.products)
     const dispatch = useDispatch()
     // que me entrga el custo hook?
-    let cart = useContext(CartContext)
 
     useEffect(()=>{
-        dispatch({type: "GET_PRODUCTS",payload:{name:'ojito'}})
+        dispatch({type: "GET_PRODUCTS"})
     }, [dispatch])
 
     function addItem(product){
-        cart.addItemToCart(product)
+        dispatch({type: "ADD_ITEM",payload:product})
     }
 
     return (

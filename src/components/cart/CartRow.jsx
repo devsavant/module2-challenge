@@ -1,17 +1,29 @@
 import React, { useContext } from 'react'
 import styles from './cart.module.css'
-import {CartContext} from '../contexts/useCart'
+import {useDispatch} from 'react-redux'
 
 const img = "https://gopherbot.com/images/gopher.jpg"
 
-export default ({product, title, body="No description", price, pics=[], quantity=1, _id})=>{
+export default ({product, price, title, body="No description",  pics=[], unitsAdded=1, _id})=>{
 
-    let {changeQuantity, deleteItem} = useContext(CartContext)
+    const dispatch = useDispatch()
+
+    function decreaseQuantity(product){
+        dispatch({type: "SUBSTRACT_ITEM",payload:product})
+    }
+
+    function increaseQuantity(product){
+        dispatch({type: "ADD_ITEM",payload:product})
+    }
+
+    function deleteItem(id){
+        dispatch({type: "REMOVE_ITEM",payload:id})
+    }
 
     return (
         <div className={styles.rowContainer}>
             <div>
-                <img src={pics[0]} alt="blissito" />
+                <img src={(pics[0]||img)} alt="blissito" />
             </div>
             <div >
                 <span>
@@ -22,13 +34,13 @@ export default ({product, title, body="No description", price, pics=[], quantity
                 </span>
                 <div>
                     <button onClick={()=>{
-                        changeQuantity(product, "NO")
+                        decreaseQuantity(product)
                     }}>
                         -
                     </button>
-                    <input value={quantity} type="number"/>
+                    <input value={unitsAdded} type="number"/>
                     <button onClick={()=>{
-                        changeQuantity(product, "YES")
+                        increaseQuantity(product)
                     }} >
                         +
                     </button>
@@ -40,7 +52,7 @@ export default ({product, title, body="No description", price, pics=[], quantity
                     deleteItem(_id)
                 }}
                 >x</span>
-                <span>$ {price}.00</span>
+                <span>$ {(price||0)*unitsAdded}.00</span>
             </div>
         </div>
     )

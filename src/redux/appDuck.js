@@ -10,7 +10,8 @@ import {
 } from 'redux-observable'
 import { of, concat } from 'rxjs'
 const initialData = {
-    items:{},
+    showCart:false,
+    selectedItems:{},
     products: [],
     total:0
 }
@@ -19,22 +20,26 @@ export default function (state = initialData, action) {
         case "UPDATE_CART":
             return {
                 ...state,
-                items: action.payload,
+                selectedItems: action.payload,
                 total: Object.values(action.payload).reduce((total, {price=0,unitsAdded}) => total + price * unitsAdded, 0)
 
             }
         case "SET_PRODUCTS":
             return {...state, products: action.payload }
 
-        case "SET_PRODUCTS":{
+        case "FETCH_FAILED":{
             alert(action.payload)
             return;
         }
+
+        case "SET_CART_VISIVILITY":
+            return {...state, showCart: action.payload }
+
         default: return state;
     }
 }
 
-export function getItems(action$) {
+export function getItemsEpic(action$) {
     return action$.pipe(
         ofType("GET_PRODUCTS"),
         switchMap(() => {
@@ -54,9 +59,10 @@ export function addItemEpic(action$, state$){
     return action$.pipe(
         ofType("ADD_ITEM"),
         switchMap(({payload})=>{
-            let itemsAdded = state$.value.app.items;
+            let itemsAdded = state$.value.app.selectedItems;
             itemsAdded[payload._id] = {...payload,unitsAdded: itemsAdded[payload._id] ? itemsAdded[payload._id].unitsAdded + 1 : 1}
-            return of({type:"UPDATE_CART", payload:itemsAdded})
+            of({type:"UPDATE_CART", payload:itemsAdded})
+            return of({type:"SHOW_CART"})
         })
     )
 }
@@ -64,7 +70,7 @@ export function substractItemEpic(action$, state$){
     return action$.pipe(
         ofType("SUBSTRACT_ITEM"),
         switchMap(({payload})=>{
-            let itemsAdded = state$.value.app.items;
+            let itemsAdded = state$.value.app.selectedItems;
             if(itemsAdded[payload._id]){
                 itemsAdded[payload._id] = {...payload,unitsAdded: itemsAdded[payload._id].unitsAdded - 1 }
                 if(itemsAdded[payload._id].unitsAdded <= 0){
@@ -75,18 +81,33 @@ export function substractItemEpic(action$, state$){
         })
     )
 }
+
 export function removeItemEpic(action$, state$){
     return action$.pipe(
         ofType("REMOVE_ITEM"),
-        switchMap(({fieldName,newValue})=>{
-            return of({type:"UPDATE_CART", payload:{newValue,fieldName}})
+        switchMap(({payload})=>{
+            let itemsAdded = state$.value.app.selectedItems;
+            delete itemsAdded[payload]
+            return of({type:"UPDATE_CART", payload:itemsAdded})
         })
     )
 }
 
+export function showCartEpic(action$){
+    return action$.pipe(
+        ofType("SHOW_CART"),
+        switchMap(()=>{
+            return of({type:"SET_CART_VISIVILITY", payload:true})
+        })
+    )
+}
 
-// fetch('https://backend-panel.herokuapp.com/products')
-//         .then(res=>res.json())
-//         .then(data=>{
-//             setProducts(data.result)
-//         })
+export function hideCartEpic(action$){
+    return action$.pipe(
+        ofType("HIDE_CART"),
+        switchMap(()=>{
+            return of({type:"SET_CART_VISIVILITY", payload:false})
+        })
+    )
+}
+

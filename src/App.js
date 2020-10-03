@@ -2,58 +2,37 @@ import React from 'react';
 // import logo from './logo.svg';
 import './App.css';
 // import Uploader from './components/Uploader' 
-// import Cart from './components/cart/Cart';
+import Cart from './components/cart/Cart';
 import Routes from './Routes';
+import {useDispatch, useSelector} from 'react-redux'
+
 // import {CartContext} from './components/contexts/useCart'
 
 
 function App() {
 
-  // let {state:cartState} = useContext(CartContext)
 
-  // useEffect(() => {
-  //   console.log("effect");
-  //   fetch("https://rickandmortyapi.com/graphql/", {
-  //     method: "POST",
-  //     body: JSON.stringify({
-  //       query: "{characters\n{results{\nid\n name\n image\n species}}}"
-  //     }),
-  //     headers:{
-  //       'Content-Type': 'application/json'
-  //     }
-  //   })
-  //     .then(res => {
-  //       console.log(res);
-  //       return res.json();
-  //     })
-  //     .then(r => console.log(r));
-  // }, []);
+  const state = useSelector(state=> state.app)
+  const dispatch = useDispatch()
 
-  // let [state, setState] = useState({
-  //   show:false
-  // })
-  // let [list, setList] = useState([])
-
-  // useEffect(()=>{
-  //   if(!!cartState.items.length){
-  //     setState({...state, show:true})
-  //   }
-  // }, [cartState])
-
-  // function toggleShow(){
-  //   setState({...state, show: !state.show})
-  // }
+  function toggleShow(){
+    if(state.showCart){
+      dispatch({type: "HIDE_CART"})
+    } else {
+      dispatch({type: "SHOW_CART"})
+    }
+  }
 
   return (
     <div >
 
       <Routes />
 
-    {/* <Cart 
+    { <Cart
       onCancel={toggleShow}
-      show={state.show} 
-      list={list}
-      /> */}
+      show={state.showCart}
+      //list={state.selectedItems}
+      /> }
     </div>
   );
 }

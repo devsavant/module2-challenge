@@ -1,11 +1,10 @@
-import React, {useEffect, useContext} from 'react'
+import React, {useEffect} from 'react'
 import {Link} from 'react-router-dom'
 import {useDispatch, useSelector} from 'react-redux'
 
 export default function ListView(){
     const products = useSelector(state=> state.app.products)
     const dispatch = useDispatch()
-    // que me entrga el custo hook?
 
     useEffect(()=>{
         dispatch({type: "GET_PRODUCTS"})

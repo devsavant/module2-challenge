@@ -1,8 +1,8 @@
 import { createStore, applyMiddleware, combineReducers } from "redux"
 import { combineEpics, createEpicMiddleware } from "redux-observable";
 import { composeWithDevTools } from 'redux-devtools-extension';
-import appReducer, { addItemEpic, substractItemEpic, removeItemEpic, showCartEpic, hideCartEpic, getItemsEpic } from './appDuck'
-
+import appReducer, { showCartEpic, hideCartEpic, getItemsEpic } from './appDuck'
+import { addItemEpic, substractItemEpic, removeItemEpic } from './cartDuck'
 
 const rootEpic = combineEpics(
   addItemEpic,
@@ -22,9 +22,7 @@ const rootReducer = combineReducers({
 
 export default () => {
   // const store = createStore(rootReducer, applyMiddleware(thunk))
-  const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(
-    epicMiddleware
-  )))
-    epicMiddleware.run(rootEpic);
-    return store;
+  const store = createStore(rootReducer, composeWithDevTools(applyMiddleware(epicMiddleware)));
+  epicMiddleware.run(rootEpic);
+  return store;
 }

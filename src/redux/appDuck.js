@@ -61,8 +61,11 @@ export function addItemEpic(action$, state$){
         switchMap(({payload})=>{
             let itemsAdded = state$.value.app.selectedItems;
             itemsAdded[payload._id] = {...payload,unitsAdded: itemsAdded[payload._id] ? itemsAdded[payload._id].unitsAdded + 1 : 1}
-            of({type:"UPDATE_CART", payload:itemsAdded})
-            return of({type:"SHOW_CART"})
+
+            return concat(
+                of({type:"UPDATE_CART", payload:itemsAdded}),
+                of({type:"SHOW_CART"})
+            );
         })
     )
 }

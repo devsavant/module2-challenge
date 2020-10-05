@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './cart.module.css'
 import {useDispatch} from 'react-redux'
 

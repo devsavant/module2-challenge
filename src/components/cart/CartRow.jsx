@@ -1,8 +1,7 @@
 import React from 'react'
 import styles from './cart.module.css'
 import {useDispatch} from 'react-redux'
-
-const img = "https://gopherbot.com/images/gopher.jpg"
+import noImage from '../../no-image.png'
 
 export default ({product, price, title, body="No description",  pics=[], unitsAdded=1, _id})=>{
 
@@ -23,7 +22,7 @@ export default ({product, price, title, body="No description",  pics=[], unitsAd
     return (
         <div className={styles.rowContainer}>
             <div>
-                <img src={(pics[0]||img)} alt="blissito" />
+                <img src={(pics[0]||noImage)} alt="..." />
             </div>
             <div >
                 <span>
@@ -32,7 +31,7 @@ export default ({product, price, title, body="No description",  pics=[], unitsAd
                 <span>
                     {body.slice(0,20)}...
                 </span>
-                <div>
+                <div style={{marginLeft: "20px"}}>
                     <button onClick={()=>{
                         decreaseQuantity(product)
                     }}>

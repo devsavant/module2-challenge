@@ -21,7 +21,7 @@ export default function Cart({show=false, onCancel}){
                 `${styles.cartOverlay} ${styles.hidden}`
             } >
                 {Object.keys(items).length ? (Object.keys(items).map(productId=><CartRow key={productId} product={items[productId]} {...items[productId]} /> )) : 'no items added'}
-                <p style={{fontSize:50,color:"white"}}>  {state.total}</p>
+                <p style={{fontSize:50,color:"white", position:"absolute", bottom:"10px"}}>Total: ${state.total}</p>
             </div>
 
         </Fragment>

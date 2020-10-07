@@ -1,17 +1,28 @@
-import React, { useContext } from 'react'
+import React from 'react'
 import styles from './cart.module.css'
-import {CartContext} from '../contexts/useCart'
+import {useDispatch} from 'react-redux'
+import noImage from '../../no-image.png'
 
-const img = "https://gopherbot.com/images/gopher.jpg"
+export default ({product, price, title, body="No description",  pics=[], unitsAdded=1, _id})=>{
 
-export default ({product, title, body="No description", price, pics=[], quantity=1, _id})=>{
+    const dispatch = useDispatch()
 
-    let {changeQuantity, deleteItem} = useContext(CartContext)
+    function decreaseQuantity(product){
+        dispatch({type: "SUBSTRACT_ITEM",payload:product})
+    }
+
+    function increaseQuantity(product){
+        dispatch({type: "ADD_ITEM",payload:product})
+    }
+
+    function deleteItem(id){
+        dispatch({type: "REMOVE_ITEM",payload:id})
+    }
 
     return (
         <div className={styles.rowContainer}>
             <div>
-                <img src={pics[0]} alt="blissito" />
+                <img src={(pics[0]||noImage)} alt="..." />
             </div>
             <div >
                 <span>
@@ -20,15 +31,15 @@ export default ({product, title, body="No description", price, pics=[], quantity
                 <span>
                     {body.slice(0,20)}...
                 </span>
-                <div>
+                <div style={{marginLeft: "20px"}}>
                     <button onClick={()=>{
-                        changeQuantity(product, "NO")
+                        decreaseQuantity(product)
                     }}>
                         -
                     </button>
-                    <input value={quantity} type="number"/>
+                    <input value={unitsAdded} type="number"/>
                     <button onClick={()=>{
-                        changeQuantity(product, "YES")
+                        increaseQuantity(product)
                     }} >
                         +
                     </button>
@@ -40,7 +51,7 @@ export default ({product, title, body="No description", price, pics=[], quantity
                     deleteItem(_id)
                 }}
                 >x</span>
-                <span>$ {price}.00</span>
+                <span>$ {(price||0)*unitsAdded}.00</span>
             </div>
         </div>
     )

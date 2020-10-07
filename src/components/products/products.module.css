@@ -1,0 +1,20 @@
+.productCard {
+  width: 10rem;
+  margin: 10px;
+}
+
+.cardImg {
+  max-width: 200px;
+  max-height: 200px;
+}
+
+.price {
+  color: black;
+}
+
+.detailsContiner {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding: 50px;
+}

@@ -6,7 +6,7 @@ import Cart from './components/cart/Cart';
 import Routes from './Routes';
 import {CartContext} from './components/contexts/useCart'
 
-
+// TESTE TEST 
 function App() {
 
   let {state:cartState} = useContext(CartContext)

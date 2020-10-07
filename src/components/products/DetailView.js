@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import noImage from '../../no-image.png';
+import styles from './products.module.css'
 
 export default function DetailView({match}){
     let [product, setProduct] = useState({ pics:[] });
@@ -12,15 +13,14 @@ export default function DetailView({match}){
     }, [match.params.id]);
 
     return (
-        <div style={{display:"flex", justifyContent:"space-around", flexWrap:"wrap", padding: "50px"}} className="card text-center">
+        <div className={`card text-center ${styles.detailsContainer}`}>
             <div className="card-header">
-                DETAIL OF THE PRODUCT
+                Detalles del producto
             </div>
             <div className="card-body">
-                {/*<h5 className="card-title">Special title treatment</h5>*/}
-                <img className="card-img-top" style={{maxWidth: "200px", maxHeight: "200px"}} src={product.pics[0] || noImage} alt="..." />
-                <p className="card-text">{product.title} - {product.price}</p>
-                <a href="/" className="btn btn-primary">Back to catalog</a>
+                <img className={`card-img-top ${styles.cardImg}`} src={product.pics[0] || noImage} alt="..." />
+                <p className="card-text">{product.title || 'Sin titulo'} - {product.price || 'Precio no disponible'}</p>
+                <a href="/" className="btn btn-primary">Volver al catalogo</a>
             </div>
             <div className="card-footer text-muted">
                 {product.body}

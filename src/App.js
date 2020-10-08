@@ -1,44 +1,26 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useState, useEffect} from 'react';
 // import logo from './logo.svg';
 import './App.css';
 // import Uploader from './components/Uploader' 
 import Cart from './components/cart/Cart';
 import Routes from './Routes';
-import {CartContext} from './components/contexts/useCart'
+import { useSelector} from 'react-redux';
 
 // TESTE TEST 
 function App() {
-
-  let {state:cartState} = useContext(CartContext)
-
-  useEffect(() => {
-    console.log("effect");
-    fetch("https://rickandmortyapi.com/graphql/", {
-      method: "POST",
-      body: JSON.stringify({
-        query: "{characters\n{results{\nid\n name\n image\n species}}}"
-      }),
-      headers:{
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(res => {
-        console.log(res);
-        return res.json();
-      })
-      .then(r => console.log(r));
-  }, []);
+  
+  const cartState = useSelector(state => state.products.list);
 
   let [state, setState] = useState({
     show:false
   })
-  let [list, setList] = useState([])
+  let [list] = useState([])
 
   useEffect(()=>{
-    if(!!cartState.items.length){
+    if(!!cartState.length){
       setState({...state, show:true})
     }
-  }, [cartState])
+  }, [])
 
   function toggleShow(){
     setState({...state, show: !state.show})
